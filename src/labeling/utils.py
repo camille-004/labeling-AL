@@ -1,7 +1,7 @@
 import random
-import yaml
 
 import numpy as np
+import yaml
 
 
 def load_dict(fp):
