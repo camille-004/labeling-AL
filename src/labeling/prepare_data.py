@@ -1,9 +1,12 @@
 from pathlib import Path
 from typing import Tuple
 
+import numpy as np
 import pandas as pd
 
 from config import config
+
+logger = config.logger
 
 
 def load_raw_data(
@@ -40,5 +43,34 @@ def load_raw_data(
         engine="python",
         names=["title", "genre", "synopsis"],
     ).reset_index(drop=True)
-    config.logger.info("Successfully loaded raw data")
+
+    logger.info(
+        f"Successfully loaded raw data: training data {train_df.shape}, testing data {test_df.shape}"
+    )
     return train_df, test_df
+
+
+def unlabel_data(df):
+    """
+    Remove most labels in the input dataset.
+
+    Parameters
+    ----------
+    df : pd.DataFrame
+        Input DataFrame.
+
+    Returns
+    -------
+    pd.DataFrame
+        New DataFrame with mostly empty labels.
+    """
+    labeled = df.groupby(config.TARGET_COL).head(2)
+    unlabeled = df[~df.index.isin(labeled.index)]
+    del unlabeled[config.TARGET_COL]
+    unlabeled = unlabeled.assign(genre=np.nan)
+    combined = pd.concat([labeled, unlabeled])
+
+    logger.info(
+        f"Generated new dataset with empty labels. Percentage of data points that are labeled: {np.round(len(labeled) / len(combined), 4) * 100}%"
+    )
+    return combined
