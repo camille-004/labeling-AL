@@ -1,6 +1,6 @@
 import logging.config
-
 from pathlib import Path
+
 from rich.logging import RichHandler
 
 BASE_DIR = Path(__file__).parent.parent.absolute()

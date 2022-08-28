@@ -16,8 +16,6 @@ repos:
     -   id: check-ast
     -   id: check-json
     -   id: check-merge-conflict
-    -   id: detect-aws-credentials
-    -   id: detect-private-key
 -   repo: https://github.com/psf/black
     rev: 22.6.0
     hooks:
@@ -41,12 +39,6 @@ repos:
         args: [--py36-plus]
 - repo: local
   hooks:
-    - id: dvc
-      name: dvc
-      entry: make
-      args: ["dvc"]
-      language: system
-      pass_filenames: false
     - id: test
       name: test
       entry: make
