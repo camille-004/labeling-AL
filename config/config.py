@@ -13,5 +13,8 @@ logger = logging.getLogger()
 logger.handlers[0] = RichHandler(markup=True)
 
 TARGET_COL = "genre"
+TEXT_COL = "synopsis"
 PLOT_PALETTE = "hls"
 PLOT_STYLE = "whitegrid"
+SEED = 42
+TEST_SIZE = 0.3
