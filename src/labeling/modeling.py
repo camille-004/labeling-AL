@@ -26,7 +26,7 @@ def clf_eval(
     metrics = precision_recall_fscore_support(
         y_val, pred_val, average="weighted"
     )
-    print(y_val.sum().sum())
+
     performance = {
         "Precision": f"{metrics[0]:0.4f}",
         "Recall": f"{metrics[1]:0.4f}",
