@@ -1,3 +1,5 @@
+from typing import Dict
+
 import numpy as np
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -15,7 +17,26 @@ def clf_eval(
     X_val: pd.DataFrame,
     y_train: np.ndarray,
     y_val: np.ndarray,
-):
+) -> Dict[str, float]:
+    """
+    Fit a classifier and log the performance metrics.
+
+    Parameters
+    ----------
+    X_train : pd.DataFrame
+        Training features.
+    X_val : pd.DataFrame
+        Validation features.
+    y_train : np.ndarray
+        Training labels.
+    y_val : np.ndarray
+        Validation labels.
+
+    Returns
+    -------
+    dict
+       Precision, recall, F1, MCC
+    """
     clf = make_pipeline(
         TfidfVectorizer(),
         OneVsRestClassifier(LogisticRegression(random_state=config.SEED)),
@@ -28,10 +49,10 @@ def clf_eval(
     )
 
     performance = {
-        "Precision": f"{metrics[0]:0.4f}",
-        "Recall": f"{metrics[1]:0.4f}",
-        "F1": f"{metrics[2]:0.4f}",
-        "MCC": f"{matthews_corrcoef(y_val, pred_val):0.4f}",
+        "Precision": np.round(metrics[0], 4),
+        "Recall": np.round(metrics[1], 4),
+        "F1": np.round(metrics[2], 4),
+        "MCC": np.round(matthews_corrcoef(y_val, pred_val), 4),
     }
 
     logger.info(f"Fit {clf[1]}: {performance}")

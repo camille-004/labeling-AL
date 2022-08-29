@@ -96,11 +96,13 @@ def clean_text(text: str) -> str:
     str
         Cleaned text
     """
-    text = text.lower()
-    text = text.translate(str.maketrans("", "", string.punctuation))
-    text = "".join([i for i in text if not i.isdigit()])
-    text = " ".join(text.split())
-    text = contractions.fix(text)
+    text = text.lower()  # Lowercase text
+    text = text.translate(
+        str.maketrans("", "", string.punctuation)
+    )  # Remove punctuation
+    text = "".join([i for i in text if not i.isdigit()])  # Remove numbers
+    text = " ".join(text.split())  # Remove extra whitespace
+    text = contractions.fix(text)  # Remove contractions
     return text
 
 
