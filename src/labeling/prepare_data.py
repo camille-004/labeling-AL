@@ -1,6 +1,8 @@
+import string
 from pathlib import Path
 from typing import Tuple
 
+import contractions
 import numpy as np
 import pandas as pd
 
@@ -74,3 +76,25 @@ def unlabel_data(df):
         f"Generated new dataset with empty labels. Percentage of data points that are labeled: {np.round(len(labeled) / len(combined), 4) * 100}%"
     )
     return combined
+
+
+def clean_text(text):
+    """
+    Perform basic text cleaning.
+
+    Parameters
+    ----------
+    text : str
+        Input text.
+
+    Returns
+    -------
+    str
+        Cleaned text
+    """
+    text = text.lower()
+    text = text.translate(str.maketrans("", "", string.punctuation))
+    text = "".join([i for i in text if not i.isdigit()])
+    text = " ".join(text.split())
+    text = contractions.fix(text)
+    return text
